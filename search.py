@@ -223,7 +223,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     (graph search).
     """
     "*** YOUR CODE HERE ***"
-<<<<<<< HEAD
     fringe=PriorityQueue()
     fringe.push((problem.getStartState(),[],0),heuristic(problem.getStartState(),problem))
     visited=set()
@@ -243,8 +242,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 
 
     util.raiseNotDefined()
-=======
->>>>>>> b2e2a7cf82c930a63ff73283e46228349035a292
 
 
 # Abbreviations
