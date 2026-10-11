@@ -69,9 +69,20 @@ def depthFirstSearch(problem):
     (state, actionsSoFar) is an easy way to remember how you got there.
     """
     "*** YOUR CODE HERE ***"
+
     fringe = Stack()
-    fringe.push(problem.getStartState())
-    util.raiseNotDefined()
+    fringe.push((problem.getStartState(),[]))
+    visited  = set() # a set for already visited nodes
+    while not fringe.isEmpty():
+        current_state,actions = fringe.pop()
+        if problem.isGoalState(current_state):
+            return actions # this returnd the path
+        if current_state not in visited:
+            visited.add(current_state)
+            for successor,action,stepCost in (problem.getSuccessors(current_state)):
+                if successor not in visited:
+                    fringe.push((successor,actions + [action]))
+    return None
 
 
 # ----------------------------------------------------------------------
@@ -83,7 +94,7 @@ def breadthFirstSearch(problem):
     fringe=Queue()
     fringe.push((problem.getStartState(), []))
     visited=set()
-    while fringe:
+    while not fringe.isEmpty():
         current_state, actions = fringe.pop()
         if problem.isGoalState(current_state):
             return actions
@@ -94,7 +105,6 @@ def breadthFirstSearch(problem):
                     fringe.push((successor, actions + [action]))
     
     return None  
-
 
 
 # ----------------------------------------------------------------------
@@ -119,6 +129,7 @@ def depthLimitedSearch(problem, limit):
     by not revisiting a state that is already on the current path.
     """
     "*** YOUR CODE HERE ***"
+
     fringe = Stack()
     fringe.push((problem.getStartState(), [], {problem.getStartState()}))
     
@@ -151,12 +162,11 @@ def iterativeDeepeningSearch(problem, maxDepth=10000):
     (or none within maxDepth).
     """
     "*** YOUR CODE HERE ***"
-    for depth in range(maxDepth):
+    for depth in range(maxDepth + 1):
         result = depthLimitedSearch(problem, depth)
         if result is not CUTOFF:
             return result
     return None 
-    util.raiseNotDefined()
 
 
 # ----------------------------------------------------------------------
@@ -165,7 +175,19 @@ def iterativeDeepeningSearch(problem, maxDepth=10000):
 def uniformCostSearch(problem):
     """Search the node of least total path cost g(n) first (graph search)."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    Fringe = PriorityQueue()
+    Fringe.push((problem.getStartState(),[],0),0) # pushed start state, actions, total_cost and priority
+    visited = set()
+    while not Fringe.isEmpty():
+        current_state,actions,total_cost = Fringe.pop()
+        if problem.isGoalState(current_state):
+            return actions
+        if(current_state not in visited):
+            visited.add(current_state)
+            for successor, action, stepCost in problem.getSuccessors(current_state):
+                if successor not in visited:
+                    Fringe.push((successor, actions + [action],total_cost + stepCost),total_cost + stepCost)
+    return None
 
 
 # ----------------------------------------------------------------------
@@ -187,12 +209,10 @@ def greedyBestFirstSearch(problem, heuristic=nullHeuristic):
             return actions
         if current_state not in visited:
             visited.add(current_state)
-            for cost,successor,action in problem.getSuccessors(current_state):
+            for successor,action,cost in problem.getSuccessors(current_state):
                 if successor not in visited:
                     fringe.push((successor, actions + [action]), heuristic(successor, problem))
     return None
-    util.raiseNotDefined()
-
 
 # ----------------------------------------------------------------------
 # Q7: A* Search
@@ -203,6 +223,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     (graph search).
     """
     "*** YOUR CODE HERE ***"
+<<<<<<< HEAD
     fringe=PriorityQueue()
     fringe.push((problem.getStartState(),[],0),heuristic(problem.getStartState(),problem))
     visited=set()
@@ -222,6 +243,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 
 
     util.raiseNotDefined()
+=======
+>>>>>>> b2e2a7cf82c930a63ff73283e46228349035a292
 
 
 # Abbreviations
