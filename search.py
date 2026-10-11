@@ -223,7 +223,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     (graph search).
     """
     "*** YOUR CODE HERE ***"
-<<<<<<< HEAD
     fringe=PriorityQueue()
     fringe.push((problem.getStartState(),[],0),heuristic(problem.getStartState(),problem))
     visited=set()
@@ -240,11 +239,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                     path_cost= problem.getCostOfActions(action+[path])
                     fringe.push((successor,action+[path],new_g),heuristic_cost+path_cost)
     return None
-
-
-    util.raiseNotDefined()
-=======
->>>>>>> b2e2a7cf82c930a63ff73283e46228349035a292
 
 
 # Abbreviations
