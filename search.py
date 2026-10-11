@@ -241,6 +241,9 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     return None
 
 
+    util.raiseNotDefined()
+
+
 # Abbreviations
 always_right = alwaysRightSearch
 dfs = depthFirstSearch
