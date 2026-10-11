@@ -111,7 +111,6 @@ def breadthFirstSearch(problem):
     return None  
 
 
-
 # ----------------------------------------------------------------------
 # Q3: Depth-Limited Search
 # ----------------------------------------------------------------------
@@ -180,7 +179,19 @@ def iterativeDeepeningSearch(problem, maxDepth=10000):
 def uniformCostSearch(problem):
     """Search the node of least total path cost g(n) first (graph search)."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    Fringe = PriorityQueue()
+    Fringe.push((problem.getStartState(),[],0),0) # pushed start state, actions, total_cost and priority
+    visited = set()
+    while not Fringe.isEmpty():
+        current_state,actions,total_cost = Fringe.pop()
+        if problem.isGoalState(current_state):
+            return actions
+        if(current_state not in visited):
+            visited.add(current_state)
+            for successor, action, stepCost in problem.getSuccessors(current_state):
+                if successor not in visited:
+                    Fringe.push((successor, actions + [action],total_cost + stepCost),total_cost + stepCost)
+    return None
 
 
 # ----------------------------------------------------------------------
