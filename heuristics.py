@@ -38,4 +38,11 @@ def euclideanHeuristic(state, problem):
     Q6: the straight-line (Euclidean) distance from 'state' to problem.goal.
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    row,col = state
+    g_row,g_col = problem.goal
+
+    sqr = (row-g_row) ** 2 + (col - g_col) ** 2
+    e_heuristic = math.sqrt(sqr)
+
+    return e_heuristic
