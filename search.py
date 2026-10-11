@@ -69,9 +69,24 @@ def depthFirstSearch(problem):
     (state, actionsSoFar) is an easy way to remember how you got there.
     """
     "*** YOUR CODE HERE ***"
+
+    print("Start:", problem.getStartState())
+    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
+    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+
     fringe = Stack()
-    fringe.push(problem.getStartState())
-    util.raiseNotDefined()
+    fringe.push((problem.getStartState(),[]))
+    visited  = set() # a set for already visited nodes
+    while not fringe.isEmpty():
+        current_state,actions = fringe.pop()
+        if problem.isGoalState(current_state):
+            return actions # this returnd the path
+        if current_state not in visited:
+            visited.add(current_state)
+            for successor,action,stepCost in (problem.getSuccessors(current_state)):
+                if successor not in visited:
+                    fringe.push((successor,actions + [action]))
+    return None
 
 
 # ----------------------------------------------------------------------
