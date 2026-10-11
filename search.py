@@ -213,11 +213,10 @@ def greedyBestFirstSearch(problem, heuristic=nullHeuristic):
             return actions
         if current_state not in visited:
             visited.add(current_state)
-            for cost,successor,action in problem.getSuccessors(current_state):
+            for successor,action,cost in problem.getSuccessors(current_state):
                 if successor not in visited:
                     fringe.push((successor, actions + [action]), heuristic(successor, problem))
     return None
-    util.raiseNotDefined()
 
 
 # ----------------------------------------------------------------------

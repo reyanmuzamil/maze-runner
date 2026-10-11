@@ -112,3 +112,4 @@ def keyHuntHeuristic(state, problem):
     position = state[0]
     "*** YOUR CODE HERE ***"
     return 0   # the trivial (but consistent!) heuristic
+sss

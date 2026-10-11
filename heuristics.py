@@ -24,7 +24,13 @@ def manhattanHeuristic(state, problem):
         |row1 - row2| + |col1 - col2|
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    row,col = state
+    g_row,g_col = problem.goal
+
+    m_heuristic = abs(row-g_row) + abs(col - g_col)
+
+    return m_heuristic
 
 
 def euclideanHeuristic(state, problem):
