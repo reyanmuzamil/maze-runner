@@ -203,6 +203,24 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     (graph search).
     """
     "*** YOUR CODE HERE ***"
+    fringe=PriorityQueue()
+    fringe.push((problem.getStartState(),[],0),heuristic(problem.getStartState(),problem))
+    visited=set()
+    while not fringe.isEmpty():
+        current_node,action,current_g=fringe.pop()
+        if problem.isGoalState(current_node):
+            return action
+        if current_node not in visited:
+            visited.add(current_node)
+            for successor , path,step_cost in problem.getSuccessors(current_node):
+                if successor not in visited:
+                    new_g=current_g+step_cost
+                    heuristic_cost=heuristic(successor,problem)
+                    path_cost= problem.getCostOfActions(action+[path])
+                    fringe.push((successor,action+[path],new_g),heuristic_cost+path_cost)
+    return None
+
+
     util.raiseNotDefined()
 
 

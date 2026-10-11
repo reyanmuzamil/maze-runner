@@ -15,6 +15,7 @@ import util
 
 def nullHeuristic(state, problem=None):
     """The trivial heuristic: it knows nothing, so it always says 0."""
+
     return 0
 
 
@@ -24,6 +25,9 @@ def manhattanHeuristic(state, problem):
         |row1 - row2| + |col1 - col2|
     """
     "*** YOUR CODE HERE ***"
+    row1,col1=state[0],state[1]
+    row2,col2=problem.goal[0],problem.goal[1]
+    return abs(row1-row2)+abs(col1-col2)
     util.raiseNotDefined()
 
 
@@ -32,4 +36,7 @@ def euclideanHeuristic(state, problem):
     Q6: the straight-line (Euclidean) distance from 'state' to problem.goal.
     """
     "*** YOUR CODE HERE ***"
+    row1,col1=state[0],state[1]
+    row2,col2=problem.goal[0],problem.goal[1]
+    return math.sqrt((row1-row2)**2+(col1-col2)**2)
     util.raiseNotDefined()
