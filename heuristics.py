@@ -32,7 +32,6 @@ def manhattanHeuristic(state, problem):
 
     return m_heuristic
 
-
 def euclideanHeuristic(state, problem):
     """
     Q6: the straight-line (Euclidean) distance from 'state' to problem.goal.

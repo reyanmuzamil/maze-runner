@@ -70,10 +70,6 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
 
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
-
     fringe = Stack()
     fringe.push((problem.getStartState(),[]))
     visited  = set() # a set for already visited nodes
@@ -98,7 +94,7 @@ def breadthFirstSearch(problem):
     fringe=Queue()
     fringe.push((problem.getStartState(), []))
     visited=set()
-    while fringe:
+    while not fringe.isEmpty():
         current_state, actions = fringe.pop()
         if problem.isGoalState(current_state):
             return actions
@@ -133,6 +129,7 @@ def depthLimitedSearch(problem, limit):
     by not revisiting a state that is already on the current path.
     """
     "*** YOUR CODE HERE ***"
+
     fringe = Stack()
     fringe.push((problem.getStartState(), [], {problem.getStartState()}))
     
@@ -165,12 +162,11 @@ def iterativeDeepeningSearch(problem, maxDepth=10000):
     (or none within maxDepth).
     """
     "*** YOUR CODE HERE ***"
-    for depth in range(maxDepth):
+    for depth in range(maxDepth + 1):
         result = depthLimitedSearch(problem, depth)
         if result is not CUTOFF:
             return result
     return None 
-    util.raiseNotDefined()
 
 
 # ----------------------------------------------------------------------
@@ -218,7 +214,6 @@ def greedyBestFirstSearch(problem, heuristic=nullHeuristic):
                     fringe.push((successor, actions + [action]), heuristic(successor, problem))
     return None
 
-
 # ----------------------------------------------------------------------
 # Q7: A* Search
 # ----------------------------------------------------------------------
@@ -228,7 +223,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     (graph search).
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
 
 
 # Abbreviations
