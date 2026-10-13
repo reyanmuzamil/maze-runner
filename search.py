@@ -131,25 +131,26 @@ def depthLimitedSearch(problem, limit):
     "*** YOUR CODE HERE ***"
 
     fringe = Stack()
-    fringe.push((problem.getStartState(), [], {problem.getStartState()}))
+    start_state = problem.getStartState()
+    fringe.push((start_state, [], 0, {start_state}))
     
     cutoff_occurred = False
 
     while not fringe.isEmpty():
-        current_state, actions, path_set = fringe.pop()
-
-        if problem.isGoalState(current_state):
+        state, actions, depth, path_set = fringe.pop()
+        if problem.isGoalState(state):
             return actions
 
-        if len(actions) == limit:
+        if depth == limit:
             cutoff_occurred = True
-            continue  
-
-        for successor, act, stepcost in problem.getSuccessors(current_state):
+            continue
+        successors = problem.getSuccessors(state)
+        for successor, action, step_cost in reversed(successors):
             if successor not in path_set:
-                fringe.push((successor, actions + [act], path_set | {successor}))
+                fringe.push((successor, actions + [action], depth + 1, path_set | {successor}
+                ))
 
-    return CUTOFF if cutoff_occurred else None
+    return "CUTOFF" if cutoff_occurred else None
 
 
 # ----------------------------------------------------------------------
@@ -164,7 +165,7 @@ def iterativeDeepeningSearch(problem, maxDepth=10000):
     "*** YOUR CODE HERE ***"
     for depth in range(maxDepth + 1):
         result = depthLimitedSearch(problem, depth)
-        if result is not CUTOFF:
+        if result is not "CUTOFF" and result is not None:
             return result
     return None 
 
@@ -223,22 +224,30 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     (graph search).
     """
     "*** YOUR CODE HERE ***"
-    fringe=PriorityQueue()
-    fringe.push((problem.getStartState(),[],0),heuristic(problem.getStartState(),problem))
-    visited=set()
+    fringe = PriorityQueue()
+    start_state = problem.getStartState()
+    
+    fringe.push((start_state, [], 0), heuristic(start_state, problem))
+    
+    g_costs = {start_state: 0}
+
     while not fringe.isEmpty():
-        current_node,action,current_g=fringe.pop()
+        current_node, actions, current_g = fringe.pop()
+
         if problem.isGoalState(current_node):
-            return action
-        if current_node not in visited:
-            visited.add(current_node)
-            for successor , path,step_cost in problem.getSuccessors(current_node):
-                if successor not in visited:
-                    new_g=current_g+step_cost
-                    heuristic_cost=heuristic(successor,problem)
-                    path_cost= problem.getCostOfActions(action+[path])
-                    fringe.push((successor,action+[path],new_g),heuristic_cost+path_cost)
-    return None
+            return actions
+
+        if current_g > g_costs.get(current_node, float('inf')):
+            continue
+
+        for successor, action, step_cost in problem.getSuccessors(current_node):
+            new_g = current_g + step_cost
+            
+            if new_g < g_costs.get(successor, float('inf')):
+                g_costs[successor] = new_g
+                f_cost = new_g + heuristic(successor, problem)
+                fringe.push((successor, actions + [action], new_g), f_cost)
+    return None  # If no solution is found
 
 
     util.raiseNotDefined()
