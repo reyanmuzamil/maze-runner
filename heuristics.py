@@ -39,6 +39,8 @@ def manhattanHeuristic(state, problem):
 
     m_heuristic = abs(row-g_row) + abs(col - g_col)
 
+    return m_heuristic
+
 
 def euclideanHeuristic(state, problem):
     """
