@@ -45,12 +45,14 @@ class KeyHuntProblem(SearchProblem):
     def getStartState(self):
         """Returns the start state, a tuple (startPosition, ...)."""
         "*** YOUR CODE HERE ***"
+        return(self.startPosition, (self.keys))  #tuple of uncollected keys 
         util.raiseNotDefined()
 
     def isGoalState(self, state):
         """True when every code piece has been collected AND Thomas is at the exit."""
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        "*** YOUR CODE HERE***"
+        position, uncollected = state
+        return position == self.exit and len(uncollected) ==0
 
     def getSuccessors(self, state):
         """
@@ -66,6 +68,21 @@ class KeyHuntProblem(SearchProblem):
 
         successors = []
         "*** YOUR CODE HERE ***"
+        position, uncollected = state
+        for action, next_position in self.maze.neighbors(position):
+            if next_position in uncollected:
+                temp_list = []
+                for key in uncollected:
+                  if key != next_position:
+                   temp_list.append(key)
+                new_uncollected = tuple(temp_list)
+            else:
+                 new_uncollected = uncollected
+            new_state=(next_position,new_uncollected)
+            new_cost=self.maze.cost(next_position)
+            successors.append((new_state,action,new_cost))
+        return successors
+            
         util.raiseNotDefined()
         return successors
 
@@ -109,7 +126,21 @@ def keyHuntHeuristic(state, problem):
         the true number of steps between two cells, and caches the result
       * util.manhattanDistance(pos1, pos2)
     """
-    position = state[0]
     "*** YOUR CODE HERE ***"
+    position,uncollected=state
+    if not uncollected:
+        if position==problem.exit:
+            return 0
+        return mazeDistance(position, problem.exit, problem.maze, problem.heuristicInfo)
+    max_dist = 0
+    for key in uncollected:
+        dist_to_key = mazeDistance(position, key, problem.maze, problem.heuristicInfo)
+        dist_key_to_exit = mazeDistance(key, problem.exit, problem.maze, problem.heuristicInfo)
+        total_estimate = dist_to_key + dist_key_to_exit
+
+        if total_estimate > max_dist:
+            max_dist = total_estimate
+
+    return max_dist
     return 0   # the trivial (but consistent!) heuristic
-sss
+
