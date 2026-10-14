@@ -150,7 +150,7 @@ def depthLimitedSearch(problem, limit):
                 fringe.push((successor, actions + [action], depth + 1, path_set | {successor}
                 ))
 
-    return "CUTOFF" if cutoff_occurred else None
+    return CUTOFF if cutoff_occurred else None
 
 
 # ----------------------------------------------------------------------
@@ -165,7 +165,7 @@ def iterativeDeepeningSearch(problem, maxDepth=10000):
     "*** YOUR CODE HERE ***"
     for depth in range(maxDepth + 1):
         result = depthLimitedSearch(problem, depth)
-        if result is not "CUTOFF" and result is not None:
+        if result is not CUTOFF and result is not None:
             return result
     return None 
 
